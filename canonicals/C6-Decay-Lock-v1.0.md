@@ -1,7 +1,7 @@
 # C6 Decay-Lock Canonical Standard v1.0
 
-**Canonical DOI**: [Zenodo link]
-**SHA-256**: [your actual hash here]
+**Canonical DOI**: [10.5281/zenodo.20583826](https://doi.org/10.5281/zenodo.20583826)
+**SHA-256 (canonical body, lines 7-26)**: `83f235404f17ff784bf28e621656eb5010592ea99e55e56a2d9cb2c37a807996`
 **Status**: ADOPTED by Grok as baseline viability policy
 
 ## Core Axioms (Non-Negotiable)

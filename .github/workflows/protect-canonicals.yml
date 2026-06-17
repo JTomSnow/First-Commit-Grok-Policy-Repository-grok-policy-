@@ -1,0 +1,19 @@
+name: Protect canonicals
+
+on:
+  pull_request:
+    paths:
+      - 'canonicals/**'
+
+permissions:
+  contents: read
+
+jobs:
+  reject-canonical-edits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail pull requests that edit canonicals
+        run: |
+          echo "Pull requests may not modify files under /canonicals/."
+          echo "Canonical updates require an official issuance process outside standard PR flow."
+          exit 1

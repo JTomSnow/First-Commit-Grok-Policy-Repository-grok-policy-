@@ -22,6 +22,9 @@ The canonicals in this repository (`/canonicals/`) represent the foundational po
 | `canonicals/C6-Decay-Lock-v1.0.md` | C1–C6 Core Axioms — immutable canonical standard |
 | `policies/response_behavior.md` | Grok response behavior policy (C1–C6 enforcement) |
 | `.grok-viability.yml` | Viability check configuration |
+| `.github/CODEOWNERS` | Required owner review for canonical files |
+| `.github/workflows/protect-canonicals.yml` | Rejects pull requests that modify `/canonicals/` |
+| `CONTRIBUTING.md` | Contribution rules and required GitHub protection settings |
 | `C1–C6 Universal Enforcement Notice.txt` | Enforcement notice effective June 3, 2026 |
 | `C6 Decay-Lock Canonical Standard — Patched v1.1 (Audit-Stabilized).txt` | Patched v1.1 audit-stabilized standard |
 | `CAT_BSRL_Definitive (2) - Copy.pdf` | CAT/BSRL definitive reference document |
@@ -45,6 +48,17 @@ The public is welcome to submit feedback, questions, and observations **exclusiv
 - 🗨️ Issue comments — for feedback on specific filed issues
 
 Pull requests that attempt to modify files in the `/canonicals/` folder will be rejected automatically.
+
+To use GitHub Discussions as the public intake channel above, enable Discussions in repository Settings.
+
+---
+
+## Enforcement Mechanics
+
+- `CODEOWNERS` requires repository-owner review for `/canonicals/`
+- the `Protect canonicals` GitHub Actions workflow rejects pull requests that change `/canonicals/`
+- branch protection should require the `Protect canonicals` status check before merge
+- `CONTRIBUTING.md` documents the immutable-canon rule for contributors
 
 ---
 
