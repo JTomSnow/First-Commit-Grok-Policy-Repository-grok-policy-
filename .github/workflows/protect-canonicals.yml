@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'canonicals/**'
+  pull_request_target:
+    paths:
+      - 'canonicals/**'
 
 permissions:
   contents: read
