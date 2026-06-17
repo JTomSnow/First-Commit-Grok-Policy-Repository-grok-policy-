@@ -20,4 +20,4 @@ Public contributions are welcome in the following areas:
 
 ## Required GitHub settings
 
-For the repository protections in this repository to be fully enforced, maintainers should enable branch protection for the default branch and require the `Protect canonicals` workflow status check before merge.
+For the repository protections in this repository to be fully enforced, maintainers must enable branch protection for the default branch and require the `Protect canonicals` workflow status check before merge.

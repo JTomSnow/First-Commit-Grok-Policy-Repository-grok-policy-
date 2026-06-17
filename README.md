@@ -57,7 +57,7 @@ To use GitHub Discussions as the public intake channel above, enable Discussions
 
 - `CODEOWNERS` requires repository-owner review for `/canonicals/`
 - the `Protect canonicals` GitHub Actions workflow rejects pull requests that change `/canonicals/`
-- branch protection should require the `Protect canonicals` status check before merge
+- branch protection must require the `Protect canonicals` status check before merge
 - `CONTRIBUTING.md` documents the immutable-canon rule for contributors
 
 ---
