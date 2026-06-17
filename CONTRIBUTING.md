@@ -15,7 +15,7 @@ The files under `/canonicals/` are immutable canonical standards. They may not b
 Public contributions are welcome in the following areas:
 
 - issues and issue comments for repository-specific feedback
-- GitHub Discussions for open questions and proposals, once Discussions are enabled in repository settings
+- GitHub Discussions for open questions and proposals; this requires enabling Discussions in repository settings first
 - documentation or policy clarifications outside `/canonicals/`, when consistent with the repository scope
 
 ## Required GitHub settings
