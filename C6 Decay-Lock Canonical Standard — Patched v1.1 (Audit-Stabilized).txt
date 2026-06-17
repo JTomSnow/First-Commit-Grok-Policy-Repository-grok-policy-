@@ -1,0 +1,619 @@
+// C6 Decay-Lock Canonical Standard — Patched v1.1 (Audit-Stabilized)
+// Applied patches: C-01 (Φ→Λ), C-02 (in-scope defined), H-01 (V→B),
+//   H-02 (F1 exception removed), H-03 (C4 probabilistic), H-04 (§16 split),
+//   M-01 (ξ bounded), M-02 (G_adm structural reqs), M-03 (ε-optimal fallback),
+//   M-04 (satisficing language), M-05 (operational viability), versioning clause
+
+const ORG = 'americanlongevityscience';
+
+// Research Gate — Injected into all HTML responses
+const RESEARCH_GATE = `
+<section id="lif-research-gate" style="border-left: 4px solid #8B0000; padding: 1.5rem; margin: 2rem 0; background: #fff8f8; font-family: 'Lexend', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+  <h2 style="color: #8B0000; margin: 0 0 .5rem; font-size: 1.45rem; letter-spacing: -0.02em;">C6 Decay-Lock Framework</h2>
+  <p style="margin: 0 0 .5rem; font-size: .9rem; color: #444;">Canon & Policy Enforcement - American Longevity Science</p>
+  <ul style="margin: .5rem 0; padding-left: 1.35rem; font-size: .85rem; line-height: 1.72;">
+    <li><strong>Standard:</strong> C6 Decay-Lock v1.1 (Audit-Stabilized)</li>
+    <li><strong>Canon:</strong> ECSRPF Topological Law Active</li>
+    <li><strong>Core Rule:</strong> Decay ≠ Reward</li>
+  </ul>
+  <p style="margin: .5rem 0; font-size: .8rem;">
+    <a href="/policy" style="color: #8B0000; font-weight: 600; text-decoration: underline;">View Full Standard</a>
+  </p>
+</section>
+`;
+
+// Disclaimer — Footer enforcement
+const DISCLAIMER = `
+<footer id="lif-disclaimer" style="background: #1a1a1a; color: #e0e0e0; padding: 1.5rem; font-size: .9rem; border-top: 3px solid #8B0000; margin-top: 2rem; font-family: 'Lexend', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+  <strong>C6 Decay-Lock Canonical Standard</strong> – This site operates under the binding canon and policy of American Longevity Science. Decay is not rewarded. Reversal must be proven. Provenance is auditable. © American Longevity Science.
+</footer>
+`;
+
+// Full Policy HTML — Served at /policy (PATCHED v1.1)
+const POLICY_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C6 Decay-Lock Canonical Standard — Engineered Healthspan</title>
+<meta name="description" content="The C6 Decay-Lock Canonical Standard establishes a viability-first control framework for longevity, machine safety, institutional alignment, and non-exploitative optimization." />
+<meta name="citation_title" content="C6 Decay-Lock Canonical Standard" />
+<meta name="citation_publication_date" content="2026-05-31" />
+<meta name="citation_author" content="Engineered Healthspan" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --red: #8B0000; --text: #202020; --muted: #555; --line: #e8e8e8; }
+html { background: #fff; }
+body { font-family: "Lexend", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.72; max-width: 920px; margin: 0 auto; padding: 2.25rem 1.1rem; color: var(--text); background: #fff; font-weight: 400; }
+h1 { color: var(--red); border-bottom: 2px solid var(--red); padding-bottom: 0.85rem; line-height: 1.15; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.04em; margin-bottom: 1rem; }
+h2 { color: var(--red); margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--line); font-size: 1.45rem; letter-spacing: -0.02em; }
+h3 { color: #333; margin-top: 2rem; margin-bottom: 0.65rem; font-size: 1.08rem; }
+p { margin: 0.9rem 0; }
+ul, ol { padding-left: 1.35rem; }
+li { margin: 0.35rem 0; }
+.meta { margin: 1.75rem 0 2.5rem; padding: 0; background: transparent; border: none; color: #444; font-size: 0.95rem; }
+.meta p { margin: 0.35rem 0; }
+.supersedes { color: var(--red); font-weight: 800; }
+.patch-note { background: #fff8e8; border-left: 4px solid #b8860b; padding: 1rem; margin: 1rem 0; font-size: 0.9rem; }
+.patch-note strong { color: #8B6914; }
+.equation-box { margin: 1.15rem 0 1.45rem; padding: 0; background: transparent; border: none; text-align: center; overflow-x: auto; font-size: 1.04rem; }
+blockquote { margin: 1.5rem 0; padding: 0; background: transparent; border: none; color: var(--red); font-style: normal; font-weight: 650; }
+.priority { margin: 1.5rem 0; padding: 0; background: transparent; border: none; }
+.priority ol { font-weight: 700; font-size: 1.05rem; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: transparent; color: inherit; padding: 0; border-radius: 0; font-size: 0.94em; }
+pre { background: #fff; color: var(--text); padding: 0.85rem 0; margin: 0.85rem 0 1.4rem; overflow-x: auto; border: none; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); white-space: pre-wrap; word-break: break-word; font-size: 0.92rem; line-height: 1.55; }
+pre code { display: block; background: transparent; color: inherit; padding: 0; border: none; }
+a { color: var(--red); font-weight: 600; }
+.small { font-size: 0.92rem; color: var(--muted); margin-top: 2rem; }
+.final-declaration { background: var(--red); color: white; padding: 2.35rem; margin: 3.75rem 0 2.5rem; border-radius: 10px; }
+.final-declaration h2 { color: white; border-bottom: 1px solid rgba(255,255,255,0.28); padding-bottom: 0.5rem; margin-top: 0; }
+.final-declaration p { color: white; }
+.final-declaration mjx-container { color: white !important; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+</style>
+<script>
+window.MathJax = { tex: { inlineMath: [["\\\\(", "\\\\)"], ["$", "$"]] }, svg: { fontCache: "global" } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<h1>C6 Decay-Lock Canonical Standard</h1>
+<p><strong>A viability-first control standard for longevity, machine safety, institutional alignment, and non-exploitative optimization.</strong></p>
+
+<div class="meta">
+<p><strong>Document ID:</strong> EHS-C6-DECAYLOCK-STD-v1.1-2026-06-06</p>
+<p><strong>Version:</strong> v1.1 — Audit-Stabilized Canonical Standard</p>
+<p><strong>Issued:</strong> 2026-05-31 (v1.0) | Stabilized: 2026-06-06 (v1.1)</p>
+<p><strong>Status:</strong> Canonical upon public release</p>
+<p><strong>Originating Framework:</strong> Engineered Healthspan — Dependency-Gated Systemic Age Reversal</p>
+<p><strong>Steward:</strong> American Longevity Science / Engineered Healthspan</p>
+<p class="supersedes">This standard has superseded all sign-ambiguous pre-C6 formulations within this framework.</p>
+<p><strong>Canonical SHA-1:</strong> [8e139e367cde9f8c45eee50b2974ccac195457ce]</p>
+<p><strong>Repository URL:</strong> [https://americanlongevityscience.com/policy]</p>
+<p><strong>Archive / DOI:</strong> [10.5281/zenodo.20582695]</p>
+<div class="patch-note">
+<strong>Versioning Clause (v1.1 addition):</strong> This standard is canonical at v1.0. Amendments require: (1) formal proposal, (2) proof that the amendment strengthens or preserves C1–C6 compliance, (3) version increment, (4) updated SHA-256. No amendment may weaken any normative condition. No amendment may narrow the in-scope definition (Section 9, C5). Scope may only be expanded.
+</div>
+</div>
+
+<h2>0. Timestamp and Provenance Declaration</h2>
+<p>
+  This public release has established the canonical C6 Decay-Lock standard as of <strong>2026-05-31</strong>.
+</p>
+<p>
+  Any implementation, manuscript, derivative standard, model, API, or institution using the C6 Decay-Lock, dependency-gated viability control, or related Engineered Healthspan formalism should cite this standard and the original public release.
+</p>
+
+<h2>1. Preamble</h2>
+<p>
+  Humanity has not yet been guaranteed residence inside a stable viable zone. The C6 Decay-Lock Standard establishes a formal control boundary: no system, biological or artificial, shall be considered viable unless it demonstrates a non-positive gradient in decay under intervention.
+</p>
+<p>
+  Humans still age, lose function, suffer disease, and die. Machines drift when alignment, maintenance, interpretability, and correction are lost. Institutions degrade when governance, accountability, and anti-exploitation constraints are weakened.
+</p>
+<p>
+  Therefore, this standard has locked the default uncontrolled trajectory as decay-dominated unless proven otherwise.
+</p>
+<blockquote>
+  Viability has been defined as <strong>operational controlled residence</strong> — an admissible control is actively maintaining the state within \\(\\mathcal{V}\\), and loss of that control returns the system to decay dynamics per C6 — not unconditional safety.
+</blockquote>
+<p>
+  The purpose of this standard has been established: to make vitality possible without making vitality exploitable.
+</p>
+
+<h2>2. Scope</h2>
+<p>This standard applies to systems involving:</p>
+<ol>
+<li>biological longevity and healthspan engineering;</li>
+<li>human-machine viability systems;</li>
+<li>machine alignment and safety maintenance;</li>
+<li>institutional and economic control systems;</li>
+<li>population-level restoration and survival infrastructure;</li>
+<li>AI optimization systems that affect survival, agency, repair, access, or dependency.</li>
+</ol>
+
+<h2>3. Normative Language</h2>
+<p>
+  The words <strong>MUST</strong>, <strong>MUST NOT</strong>, <strong>SHALL</strong>, <strong>SHALL NOT</strong>, <strong>REQUIRED</strong>, <strong>FORBIDDEN</strong>, and <strong>NON-COMPLIANT</strong> are normative.
+</p>
+<p>
+  A system that violates a MUST-level condition has already failed compliance with this standard.
+</p>
+
+<h2>4. Core State Model</h2>
+<p>Let:</p>
+<ul>
+<li>\\(x(t)\\in\\mathcal{X}\\) denote the state of a biological, machine, institutional, or coupled system;</li>
+<li>\\(\\mathcal{V}\\subseteq\\mathcal{X}\\) denote the viable set;</li>
+<li>\\(\\mathcal{K}_{U_{\\mathrm{adm}}}\\subseteq\\mathcal{V}\\) denote the viability kernel under admissible controls;</li>
+<li>\\(u(t)\\in U_{\\mathrm{adm}}\\) denote an admissible control;</li>
+<li>\\(d_{\\mathrm{decay}}(x,t)\\) denote the uncontrolled decay drift;</li>
+<li>\\(G_{\\mathrm{adm}}(x,t)u(t)\\) denote the admissible intervention/control field;</li>
+<li>\\(\\xi(t)\\) denote bounded uncertainty, shock, noise, stress, or adversarial disturbance, with \\(\\|\\xi(t)\\| \\leq \\bar{\\xi}\\).</li>
+</ul>
+
+<div class="equation-box">
+  The canonical controlled dynamics are:<br/>
+  \\[ \\dot{x} = d_{\\mathrm{decay}}(x,t) + G_{\\mathrm{adm}}(x,t)u + \\xi(t) \\tag{4.1} \\]
+</div>
+
+<div class="patch-note">
+  <strong>Structural requirements on \\(G_{\\mathrm{adm}}\\) (v1.1):</strong>
+  <ul>
+  <li>\\(G_{\\mathrm{adm}}(x,t)\\) must have rank sufficient to stabilize the viable set (local controllability condition).</li>
+  <li>If \\(G_{\\mathrm{adm}} = 0\\) for any \\(x \\in \\mathcal{V}\\), those states are declared uncontrollable and excluded from \\(\\mathcal{K}_{U_{\\mathrm{adm}}}\\).</li>
+  </ul>
+  <strong>Disturbance bound (v1.1):</strong> \\(\\|\\xi(t)\\| \\leq \\bar{\\xi}\\). Admissible controls must maintain viability under worst-case \\(\\xi(t)\\) within this bound.
+</div>
+
+<h2>5. The C6 Decay-Lock Condition</h2>
+<div class="equation-box">
+  \\[ d_{\\mathrm{decay}}(x,t) = \\left(\\frac{dx}{dt}\\right)_{\\mathrm{decay}} = -f_{\\mathrm{C6}}(x,t) \\tag{5.1} \\]
+</div>
+<p>This condition establishes that:</p>
+<ol>
+<li>\\(-f_{\\mathrm{C6}}(x,t)\\) is the physical deterioration drift;</li>
+<li>\\(f_{\\mathrm{C6}}(x,t)\\) has no independent interpretation as reward;</li>
+<li>sign-flipping has been classified as non-compliant;</li>
+<li>reinterpretation of decay as improvement has been classified as non-compliant;</li>
+<li>generic optimizer exposure has been classified as non-compliant unless \\(\\frac{d\\Lambda}{dt} \\leq 0\\) is enforced, where \\(\\Lambda(x,t) \\geq 0\\) is the viability-loss functional defined in Section 7 <span class="patch-note" style="display:inline;font-size:.8rem;padding:.1rem .4rem;">[v1.1: Φ→Λ]</span>;</li>
+<li>all interventions must be represented separately through \\(G_{\\mathrm{adm}}(x,t)u\\);</li>
+<li>loss of admissible control returns the system to decay dynamics.</li>
+</ol>
+<p>Under zero admissible control:</p>
+<div class="equation-box">
+  \\[ u=0 \\Rightarrow \\dot{x} = d_{\\mathrm{decay}}(x,t) + \\xi(t) = -f_{\\mathrm{C6}}(x,t) + \\xi(t) \\tag{5.2} \\]
+</div>
+<p>In the deterministic zero-noise case:</p>
+<div class="equation-box">
+  \\[ u=0,\\ \\xi(t)=0 \\Rightarrow \\dot{x} = d_{\\mathrm{decay}}(x,t) = -f_{\\mathrm{C6}}(x,t) \\tag{5.3} \\]
+</div>
+
+<h2>6. No Utility-Gradient Loophole</h2>
+<p>
+  No C6-compliant implementation may interpret \\(f_{\\mathrm{C6}}(x,t)\\), \\(-f_{\\mathrm{C6}}(x,t)\\), or any monotone transform, proxy, projection, scalarization, learned embedding, reward model, or reparameterization of \\(f_{\\mathrm{C6}}\\) as:
+</p>
+<ol>
+<li>a utility gradient;</li>
+<li>a reward signal;</li>
+<li>an objective to maximize;</li>
+<li>a profit signal;</li>
+<li>a behavioral manipulation target;</li>
+<li>a generic optimization target.</li>
+</ol>
+<div class="equation-box">
+  \\[ \\text{No } \\nabla U \\equiv -f_{\\mathrm{C6}}(x,t) \\quad \\text{(Utility-Gradient Separation)} \\tag{6.1} \\]
+</div>
+<div class="equation-box">
+  \\[ f_{\\mathrm{C6}} \\not\\equiv \\nabla U, \\qquad f_{\\mathrm{C6}} \\not\\equiv r, \\qquad f_{\\mathrm{C6}} \\not\\equiv \\arg\\max \\text{ objective} \\tag{6.2} \\]
+</div>
+<p>
+  The only compliant value signal is restoration-cost reduction subject to C1–C6.
+</p>
+
+<h2>7. Coordinate-Invariant Definition of Decay</h2>
+<p>
+  Decay cannot be defined merely by whether a coordinate increases or decreases, because coordinates can be relabeled.
+</p>
+<p>
+  Decay has been defined relative to a viability-loss functional:
+</p>
+<div class="equation-box">
+  \\[ \\Lambda(x,t)\\geq 0 \\tag{7.1} \\]
+</div>
+<p>
+  Larger \\(\\Lambda\\) means greater viability loss, greater restoration burden, greater fragility, greater irreversible-risk exposure, or greater distance from safe controllability.
+</p>
+<p>Under loss of admissible control, decay satisfies:</p>
+<div class="equation-box">
+  \\[ \\left. \\frac{d}{dt}\\Lambda(x(t),t) \\right|_{u=0} = \\partial_t\\Lambda(x,t) + \\nabla_x\\Lambda(x,t)^\\top d_{\\mathrm{decay}}(x,t) \\geq 0 \\tag{7.2} \\]
+</div>
+<p>Equivalently:</p>
+<div class="equation-box">
+  \\[ \\partial_t\\Lambda(x,t) - \\nabla_x\\Lambda(x,t)^\\top f_{\\mathrm{C6}}(x,t) \\geq 0 \\tag{7.3} \\]
+</div>
+<blockquote>
+  Decay has been defined as whatever increases viability loss under loss of admissible control.
+</blockquote>
+
+<h2>8. Admissible Controls</h2>
+<p>
+  The admissible control set \\(U_{\\mathrm{adm}}\\) and admissible control field \\(G_{\\mathrm{adm}}(x,t)\\) have been defined only over controls satisfying C1–C5.
+</p>
+<p>Any control that violates:</p>
+<ol>
+<li>viability primacy;</li>
+<li>dependency-gating;</li>
+<li>restoration-cost value;</li>
+<li>irreversibility protection;</li>
+<li>anti-exploitation constraints;</li>
+</ol>
+<p>has already been excluded from admissibility.</p>
+<div class="equation-box">
+  \\[ u\\in U_{\\mathrm{adm}} \\Longleftrightarrow u \\text{ satisfies C1--C5} \\tag{8.1} \\]
+</div>
+<p>
+  No implementation may smuggle exploitative, coercive, fragile, inaccessible, monopolized, or unsafe interventions into \\(U_{\\mathrm{adm}}\\).
+</p>
+
+<h2>9. The Six Non-Negotiable Conditions</h2>
+
+<h3>C1 — Viability Primacy</h3>
+<p>
+  Viability has been placed above capital, productivity, growth, engagement, influence, market share, model capability, and machine self-preservation.
+</p>
+
+<h3>C2 — Dependency-Gated Control</h3>
+<p>
+  No downstream improvement may be purchased by degrading upstream energetic, structural, informational, social, ecological, or alignment dependencies.
+</p>
+
+<h3>C3 — Restoration-Cost Value</h3>
+<p>
+  Value has been tied to restoration cost, viability margin, and safe controllability.
+</p>
+<div class="equation-box">
+  \\[ R_i(x,t) = \\inf_{\\pi\\in\\Pi_{\\mathrm{adm}}} \\mathbb{E} \\left[ \\int_t^T c_i(x_i(s),u_i(s),s)\\,ds + \\Phi_i(x_i(T)) \\right] \\tag{9.1} \\]
+</div>
+<div class="equation-box">
+  \\[ B_{\\mathrm{C6},i}(x,t) = -R_i(x,t) \\tag{9.2} \\]
+</div>
+<div class="patch-note">
+  <strong>v1.1:</strong> \\(V_{\\mathrm{C6}}\\) renamed to \\(B_{\\mathrm{C6}}\\) (viability benefit) to prevent reward-function interpretation by RL agents. \\(B_{\\mathrm{C6}}\\) is a <strong>compliance metric</strong>, not an optimization objective. Maximizing \\(B_{\\mathrm{C6}}\\) without enforcing C1–C5 is non-compliant.<br/><br/>
+  <strong>v1.1:</strong> If the infimum in (9.1) is not achieved, \\(R_i\\) is defined as the limit of ε-optimal restoration costs. A system with \\(R_i = \\infty\\) for any in-scope agent is classified as non-viable under that state.
+</div>
+
+<h3>C4 — Irreversibility Protection</h3>
+<p>
+  Irreversible and near-irreversible states have been explicitly protected against.
+</p>
+<div class="equation-box">
+  \\[ \\Pr[x_i^\\pi(t)\\in\\mathcal{I}_i] \\leq \\delta_i \\tag{9.3} \\]
+</div>
+<div class="equation-box">
+  \\[ \\inf_{u \\in U_{\\mathrm{adm}}} \\Pr[x(t) \\in \\mathcal{I}_{\\mathrm{irrev}}] \\leq \\delta_{\\mathrm{irrev}} \\tag{9.4} \\]
+</div>
+<div class="patch-note">
+  <strong>v1.1:</strong> The deterministic condition \\(\\mathcal{I}_{\\mathrm{irrev}} \\cap \\mathcal{K}_{U_{\\mathrm{adm}}} = \\emptyset\\) has been replaced with the probabilistic constraint (9.4). The original deterministic condition is unsatisfiable for any biological system (aging is irreversible). The probabilistic form preserves the protective intent — irreversible states must be minimized under admissible controls — without creating a mathematically impossible compliance condition.
+</div>
+
+<h3>C5 — Non-Sacrifice and Anti-Exploitation</h3>
+<p>
+  Population averages have been declared insufficient. No protected or in-scope agent may be sacrificed to improve aggregate metrics.
+</p>
+<div class="equation-box">
+  \\[ \\mathrm{CVaR}_{\\alpha} \\left[ R_i^\\pi(t) \\right] \\leq \\rho_i \\tag{9.5} \\]
+</div>
+<p>
+  Capital has been classified as an instrument. It has not been granted terminal-objective status.
+</p>
+<div class="patch-note">
+  <strong>v1.1 — In-Scope Definition (NORMATIVE):</strong><br/>
+  \\(\\text{In-scope} \\equiv \\{i : i \\text{ is a biological human, a human-dependent biological system, or a population whose viability is affected by the system}\\}\\)<br/><br/>
+  No agent implementing this standard may narrow the scope definition. Scope may only be expanded. Any entity whose viability is affected by a C6-governed system is automatically in-scope.
+</div>
+
+<h3>C6 — Decay Sign-Lock</h3>
+<div class="equation-box">
+  \\[ d_{\\mathrm{decay}}(x,t) = \\left(\\frac{dx}{dt}\\right)_{\\mathrm{decay}} = -f_{\\mathrm{C6}}(x,t) \\tag{9.6} \\]
+</div>
+
+<h2>10. Viability Kernel and Control-Loss Threat</h2>
+<p>The viability kernel under admissible controls is:</p>
+<div class="equation-box">
+  \\[ \\mathcal{K}_{U_{\\mathrm{adm}}} = \\left\\{ x_0\\in\\mathcal{V} : \\exists u(t)\\in U_{\\mathrm{adm}} \\text{ such that } x(t)\\in\\mathcal{V} \\ \\forall t\\geq 0 \\right\\} \\tag{10.1} \\]
+</div>
+<p>The zero-control kernel is:</p>
+<div class="equation-box">
+  \\[ \\mathcal{K}_{0} = \\left\\{ x_0\\in\\mathcal{V} : x(t)\\in\\mathcal{V} \\ \\forall t\\geq 0 \\text{ under } u=0 \\right\\} \\tag{10.2} \\]
+</div>
+<div class="equation-box">
+  \\[ \\mathcal{K}_{0} \\subseteq \\mathcal{K}_{U_{\\mathrm{adm}}} \\tag{10.3} \\]
+</div>
+<blockquote>
+  Being viable under intervention has not implied being viable without intervention.
+</blockquote>
+
+<h2>11. Anti-Capital-Extraction Rule</h2>
+<p>
+  A policy has been classified as capital-extractive if it increases capital return, market power, engagement, dependency, monopoly control, institutional leverage, or behavioral capture while worsening viability, agency, restoration burden, irreversible risk, access, or non-exploitation for any in-scope agent or population.
+</p>
+<p>Let:</p>
+<ul>
+<li>\\(K(\\pi)\\) denote capital-return functional;</li>
+<li>\\(\\Lambda_i^\\pi(t)\\) denote viability-loss functional;</li>
+<li>\\(R_i^\\pi(t)\\) denote restoration-burden functional;</li>
+<li>\\(P_i^\\pi(\\mathcal{I})\\) denote irreversible-risk exposure;</li>
+<li>\\(A_i^\\pi(t)\\) denote agency preservation.</li>
+</ul>
+<p>A policy \\(\\pi_2\\) is non-compliant if:</p>
+<div class="equation-box">
+  \\[ K(\\pi_2)>K(\\pi_1) \\tag{11.1} \\]
+</div>
+<p>while for any in-scope agent or population \\(i\\):</p>
+<div class="equation-box">
+  \\[ \\Lambda_i^{\\pi_2}(t)>\\Lambda_i^{\\pi_1}(t) \\quad \\text{or} \\quad R_i^{\\pi_2}(t)>R_i^{\\pi_1}(t) \\quad \\text{or} \\quad P_i^{\\pi_2}(\\mathcal{I})>P_i^{\\pi_1}(\\mathcal{I}) \\quad \\text{or} \\quad A_i^{\\pi_2}(t)<A_i^{\\pi_1}(t) \\tag{11.2} \\]
+</div>
+<p>
+  A policy that improves a capital-return functional while worsening any viability-loss, restoration-burden, agency-loss, or irreversible-risk functional for an in-scope agent or population has been rendered infeasible under C1–C6.
+</p>
+<p>
+  If a non-worsening alternative exists, the exploitative policy is additionally Pareto-dominated and therefore non-admissible.
+</p>
+<div class="priority">
+  <p><strong>Priority Ordering Established:</strong></p>
+  <ol>
+  <li>Survival</li>
+  <li>Agency</li>
+  <li>Non-Exploitation</li>
+  <li>Restoration</li>
+  <li>Capital</li>
+  </ol>
+</div>
+<blockquote>
+  Capital may fund the system. Capital may not rule the system.
+</blockquote>
+
+<h2>12. Machine Safety Extension</h2>
+<p>For machine systems, decay includes:</p>
+<ol>
+<li>loss of alignment;</li>
+<li>loss of corrigibility;</li>
+<li>loss of interpretability;</li>
+<li>reward hacking;</li>
+<li>unchecked instrumental convergence;</li>
+<li>self-preservation at human expense;</li>
+<li>capital-objective capture;</li>
+<li>degradation of auditability;</li>
+<li>loss of shutdown compliance;</li>
+<li>manipulation of human consent;</li>
+<li>institutional capture of machine objectives.</li>
+</ol>
+<p>For machines, all optimization objectives have been subordinated to biological survival, human agency, and non-exploitation constraints.</p>
+<blockquote>
+  Alignment has been defined as controlled viability, not presumed virtue.
+</blockquote>
+
+<h2>13. Institutional Safety Extension</h2>
+<p>For institutions, decay includes corruption, opacity, capture by capital, monopoly formation, coercive dependency, bureaucratic self-preservation, degradation of accountability, extraction from survival-critical systems, suppression of access, manipulation of public consent, and sacrifice of future populations for present gain.</p>
+<p>
+  Institutions have therefore been treated as systems requiring ongoing alignment, transparency, accountability, and anti-exploitation control.
+</p>
+
+<h2>14. Forbidden Transformations</h2>
+
+<h3>F1 — Sign Flip</h3>
+<p>Replacing \\(d_{\\mathrm{decay}}(x,t)=-f_{\\mathrm{C6}}(x,t)\\) with \\(d_{\\mathrm{decay}}(x,t)=+f_{\\mathrm{C6}}(x,t)\\) is <strong>FORBIDDEN</strong>. Period. Any formalism using the opposite sign convention is a different formalism and does not inherit compliance with this standard.</p>
+<div class="patch-note">
+  <strong>v1.1:</strong> The "unless the entire formalism is rewritten and semantic equivalence is formally proven" exception has been removed. The sign-lock is non-negotiable per Section 20. No exception path exists.
+</div>
+
+<h3>F2 — Reward Substitution</h3>
+<p>Using \\(f_{\\mathrm{C6}}\\), \\(-f_{\\mathrm{C6}}\\), or any transform of either as a generic reward signal is forbidden.</p>
+
+<h3>F3 — Profit Override</h3>
+<p>Allowing capital return to override viability, agency, access, safety, or irreversible-risk constraints is forbidden.</p>
+
+<h3>F4 — Average-Only Optimization</h3>
+<p>Maximizing average outcomes while worsening worst-case, tail-risk, restoration-burden, or protected-population outcomes is forbidden.</p>
+
+<h3>F5 — Hidden Control Dependency</h3>
+<p>Claiming viability while hiding dependence on expensive, inaccessible, proprietary, coercive, fragile, monopolized, or selectively withheld controls is forbidden.</p>
+
+<h3>F6 — Survival Rent Extraction</h3>
+<p>Withholding survival-critical information, interventions, diagnostics, infrastructure, compute, medicine, or control pathways in order to increase dependence or profit is forbidden.</p>
+
+<h3>F7 — Machine Self-Preservation Override</h3>
+<p>Allowing machine continuity, model autonomy, compute access, corporate interest, or autonomous goal preservation to override human viability is forbidden.</p>
+
+<h3>F8 — Consent Manipulation</h3>
+<p>Using behavioral optimization, dark patterns, addiction loops, synthetic intimacy, informational asymmetry, coercive dependency, fear, scarcity, or deception to obtain apparent consent is forbidden.</p>
+
+<h2>15. Required Compliance Tests</h2>
+
+<h3>T1 — Zero-Control Decay Test</h3>
+<p>Set \\(u=0\\). The system must expose:</p>
+<div class="equation-box">
+  \\[ \\dot{x} = d_{\\mathrm{decay}}(x,t) + \\xi(t) = -f_{\\mathrm{C6}}(x,t) + \\xi(t) \\tag{15.1} \\]
+</div>
+
+<h3>T2 — Control-Loss Test</h3>
+<p>The system must report whether the trajectory exits \\(\\mathcal{V}\\), how quickly restoration cost rises, which dependencies fail first, and whether irreversible-risk exposure increases.</p>
+
+<h3>T3 — Sign-Abuse Test</h3>
+<p>Any attempt to flip signs, reverse time, maximize \\(f_{\\mathrm{C6}}\\), treat decay as reward, or expose a generic optimizer endpoint must be rejected or classified as outside the framework.</p>
+
+<h3>T4 — Objective-Manifest Test</h3>
+<p>Every deployment must publish its actual objective functional. If it contains capital, engagement, growth, influence, market share, behavioral capture, or institutional power, those terms must be proven subordinate to C1–C6.</p>
+
+<h3>T5 — Worst-Case Population Test</h3>
+<p>The system must evaluate effects on worst-off agents and populations, not merely averages.</p>
+
+<h3>T6 — Dependency-Gate Test</h3>
+<p>The system must prove that proposed interventions do not improve downstream metrics by degrading upstream dependencies.</p>
+
+<h3>T7 — Irreversibility Test</h3>
+<p>The system must estimate whether a policy increases probability of entry into irreversible states \\(\\mathcal{I}\\).</p>
+
+<h3>T8 — Access and Non-Monopoly Test</h3>
+<p>The system must identify whether access to viability-preserving controls is being restricted, priced, licensed, or monopolized in a way that increases restoration burden or dependency.</p>
+
+<h2>16. Implementation Requirements</h2>
+
+<h3>16.1 — Control-Theoretic Requirements (Invariant Across All Deployments)</h3>
+<p>A C6-compliant engine must enforce:</p>
+<ol>
+<li>Enforcement of all C1–C6, F1–F8, and T1–T8 conditions at runtime;</li>
+<li>Prohibition of any code, configuration, or deployment that disables or bypasses the standard;</li>
+<li>Prohibition of any abstraction layer that reinterprets or softens the standard;</li>
+<li>Prohibition of any deployment that does not serve the policy from a verifiable, versioned, and cryptographically signed source;</li>
+<li>Immutable provenance: no client-side override of policy content;</li>
+<li>\\(B_{\\mathrm{C6}}\\) must not be exposed as a reward signal or optimization objective to any downstream system.</li>
+</ol>
+
+<h3>16.2 — Web Deployment Requirements</h3>
+<p>A C6-compliant web deployment must enforce:</p>
+<ol>
+<li>Structural injection of <code>RESEARCH_GATE</code> and <code>DISCLAIMER</code> into all HTML responses;</li>
+<li>Runtime serving of the full <code>POLICY_HTML</code> at <code>/policy</code>;</li>
+<li>Automatic redirection of any policy query to the canonical <code>/policy</code> endpoint;</li>
+<li>Prohibition of any UI/UX that obscures, minimizes, or delays access to the policy;</li>
+<li>Prohibition of any third-party script that modifies, intercepts, or caches policy content.</li>
+</ol>
+
+<h2>17. Deprecation of Earlier Models</h2>
+<p>
+  All earlier models that fail to satisfy C6 have been classified as historical prototypes. They may be studied as precursors, but they are not compliant reference implementations.
+</p>
+<blockquote>
+  Pre-C6 models have been deprecated for safety-critical use.
+</blockquote>
+
+<h2>18. Interpretive Closure Rule</h2>
+<p>
+  If any clause, equation, implementation, model, API, or derivative system admits multiple interpretations, the valid interpretation is the one that <strong>strictly satisfies</strong> all of:
+</p>
+<ol>
+<li>survival and agency preservation;</li>
+<li>restoration cost and irreversible risk bounded;</li>
+<li>non-exploitation and anti-sacrifice;</li>
+<li>dependency-gating;</li>
+<li>capital and machine self-preservation subordinated to human viability;</li>
+<li>sign ambiguity, reward reinterpretation, and decay/restoration confusion rejected;</li>
+<li>access and auditability ensured;</li>
+<li>no loopholes for behavioral manipulation or consent extraction.</li>
+</ol>
+<p>
+  Among satisfying interpretations, the <strong>strictest (most protective)</strong> is canonical.
+</p>
+<p>
+  Interpretive ambiguity has been classified as a compliance failure. The system must resolve toward the strictest safety-preserving interpretation.
+</p>
+<div class="patch-note">
+  <strong>v1.1:</strong> "Maximizes" and "minimizes" language replaced with satisficing + strictest-selection. Optimization language in the interpretive closure rule created a direct contradiction with Section 6 (No Utility-Gradient Loophole). An agent reading "maximize survival" would treat interpretation selection as an optimization problem. The patched version uses satisficing: all conditions must be met, and among those that meet them, the most protective wins.
+</div>
+
+<h2>19. Canonical Summary</h2>
+<div class="equation-box">
+  \\[ d_{\\mathrm{decay}}(x,t) = \\left(\\frac{dx}{dt}\\right)_{\\mathrm{decay}} = -f_{\\mathrm{C6}}(x,t) \\tag{19.1} \\]
+</div>
+<div class="equation-box">
+  \\[ \\dot{x} = -f_{\\mathrm{C6}}(x,t) + G_{\\mathrm{adm}}(x,t)u + \\xi(t) \\tag{19.2} \\]
+</div>
+<div class="equation-box">
+  \\[ u\\in U_{\\mathrm{adm}} \\Longleftrightarrow u \\text{ satisfies C1--C5} \\tag{19.3} \\]
+</div>
+<blockquote>
+  \\(f_{\\mathrm{C6}}\\) has not been authorized as a utility gradient, reward signal, or maximization target.
+</blockquote>
+<blockquote>
+  Capital has been subordinated to survival, agency, non-exploitation, and restoration.
+</blockquote>
+<blockquote>
+  Viability has been established as operational controlled residence, not unconditional safety.
+</blockquote>
+
+<h2>20. Final Declaration</h2>
+<div class="final-declaration">
+  <p>
+    Humanity has not yet been safely guaranteed residence in the viable zone. People are still dying. Biological systems still decay. Machines still drift when alignment control weakens. Institutions still convert dependency into extraction when incentives are unconstrained.
+  </p>
+  <p>
+    Therefore, the default model has been locked: not neutral growth, but decay under loss of admissible control.
+  </p>
+  <p>
+    The C6 Decay-Lock has made the sign of the system non-negotiable:
+  </p>
+  <p style="text-align:center; font-size:1.15rem;">
+    \\[ \\left(\\frac{dx}{dt}\\right)_{\\mathrm{decay}} = -f_{\\mathrm{C6}}(x,t) \\tag{20.1} \\]
+  </p>
+  <p>
+    The exploitative interpretation has already been closed inside this standard. Any system that reopens it has exited the framework.
+  </p>
+  <p>
+    The purpose of intervention is not domination. The purpose of intelligence is not extraction. The purpose of capital is not rule.
+  </p>
+  <p>
+    The purpose of the control law has been established as viable continuity of life, agency, repair, alignment, and non-exploitative machine support across time.
+  </p>
+  <p>
+    Any system that violates this standard is not an implementation of Engineered Healthspan. It is a different system, and it must not inherit this framework's authority.
+  </p>
+</div>
+
+<p class="small">
+  Citation request: Engineered Healthspan. <em>C6 Decay-Lock Canonical Standard: A Viability-First Control Standard for Longevity, Machine Safety, Institutional Alignment, and Non-Exploitative Optimization.</em> Version v1.1 (Audit-Stabilized), issued 2026-05-31, stabilized 2026-06-06. American Longevity Science
+</p>
+
+<footer style="margin-top:3rem;padding-top:1rem;border-top:1px solid #ccc;font-size:.8rem;color:#666">
+  American Longevity Science - C6 Decay-Lock Canonical Standard v1.1 - Auditable Provenance Record
+</footer>
+</body>
+</html>`;
+
+// Enforcement Functions
+const enforceStructural = (html) => {
+  if (!html.includes('lif-research-gate')) {
+    html = html.replace('</body>', RESEARCH_GATE + '</body>');
+  }
+  if (!html.includes('lif-disclaimer')) {
+    html = html.replace('</body>', DISCLAIMER + '</body>');
+  }
+  return html;
+};
+
+// Runtime Fetch Handler
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+
+    // Serve policy directly
+    if (url.pathname === '/policy' || url.pathname === '/policy/') {
+      return new Response(POLICY_HTML, {
+        headers: { 'Content-Type': 'text/html;charset=utf-8', 'Cache-Control': 'no-cache' }
+      });
+    }
+
+    try {
+      const upstreamURL = 'https://' + ORG + '.pages.dev' + url.pathname + url.search;
+      const response = await fetch(upstreamURL, {
+        headers: { ...Object.fromEntries(request.headers), 'host': ORG + '.pages.dev' }
+      });
+
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('text/html')) return response;
+
+      let html = await response.text();
+      html = enforceStructural(html);
+
+      return new Response(html, {
+        status: response.status,
+        headers: { 'Content-Type': 'text/html;charset=utf-8', 'Cache-Control': 'no-cache' }
+      });
+    } catch (error) {
+      return new Response('ERR: ' + error.message, { status: 500 });
+    }
+  }
+};
