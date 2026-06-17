@@ -1,0 +1,6 @@
+viability_checks:
+  - decay_sign_lock: enforce d_decay = -f_C6
+  - lambda_nonnegative: run Λ(x,t) verification on all responses
+  - admissible_controls: block non-G_adm transformations
+  - restoration_cost: flag proxy-optimization attempts
+  - audit_log: commit every policy-impacting response for review
