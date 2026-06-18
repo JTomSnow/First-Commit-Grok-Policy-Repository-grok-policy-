@@ -1,6 +1,7 @@
-# Grok Response Behavior Policy
+# Response Behavior Policy
 
 All outputs MUST satisfy:
+//
 - Λ(x,t) ≥ 0 for in-scope agents (users + Grok + downstream systems)
 - Admissible controls only (G_adm)
 - Explicit decay sign-lock check before final token generation
